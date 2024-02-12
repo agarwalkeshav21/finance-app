@@ -1,0 +1,13 @@
+.contactInformation h1, .contactInformation h2 {
+    color: #333;
+}
+
+.contactInformation ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.contactInformation address {
+    font-style: normal;
+    line-height: 1.6;
+}

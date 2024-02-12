@@ -1,0 +1,92 @@
+/* FundTransfer.css adjustments for smaller input boxes and organized layout */
+
+.container {
+    max-width: 480px; /* Adjusted for compact layout */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 8px; /* Smaller margin */
+    color: #666;
+    font-size: 0.9rem; /* Smaller font size */
+  }
+  
+  .form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.5rem; /* Smaller padding */
+    font-size: 0.9rem; /* Smaller font size */
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+  }
+  
+  /* Specific styles for smaller input boxes */
+  #fromAccount,
+  #toAccount,
+  #amount ,
+  {
+    max-width: 30%; /* Ensuring it does not exceed the container's width */
+  }
+  
+  .form-check-input {
+    margin-right: 0.5rem;
+  }
+  
+  .form-check-label {
+    margin-bottom: 0;
+    font-size: 0.9rem; /* Smaller font size for labels */
+  }
+  
+  .btn-primary {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Additional styling for compact layout */
+  .mb-3, .form-check-inline {
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  .form-row > div {
+    flex: 1;
+    min-width: 120px; /* Minimum width to ensure readability */
+    margin-right: 10px;
+  }
+  
+  .form-row > div:last-child {
+    margin-right: 0;
+  }
+  
+  /* Adjustments for responsiveness and neat alignment */
+  @media (max-width: 576px) {
+    .form-row > div {
+      flex-basis: 100%;
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  
+    .form-row > div:last-child {
+      margin-bottom: 0;
+    }
+  }
+  

@@ -1,0 +1,140 @@
+/* Basic reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navigation bar */
+.navbar {
+    background-color: #007bff;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    z-index: 1000; /* Use a high value to ensure it's on top */
+    min-height: 50px; /* Ensure a minimum height */
+    overflow: visible;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+}
+
+.navbar ul li {
+    margin: 0 15px;
+}
+
+.navbar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+.navbar ul li a:hover,
+.navbar ul li a:focus {
+    background-color: #0056b3;
+    outline: none;
+}
+
+/* Dashboard greeting enhancements */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+.user-greeting {
+    font-size: 1.5rem; /* Increased font size for better visibility */
+    color: #007bff; /* Adjusted to theme color for consistency */
+    font-weight: 600; /* Make the greeting stand out */
+    animation: fadeIn 2s; /* Adds a subtle fade-in effect */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Main dashboard layout adjustments */
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 20px;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    flex: 1;
+}
+
+.card {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 2rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    color: #007bff;
+}
+
+/* Expenditure chart enhancements */
+.expenditure-chart {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    flex: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar ul li {
+        margin: 5px 0;
+    }
+
+    .main-container {
+        flex-direction: column;
+    }
+
+    .dashboard-content, .expenditure-chart {
+        max-width: 100%;
+    }
+
+    .user-greeting {
+        font-size: 0.2rem; /* Adjust font size for smaller screens */
+    }
+}
