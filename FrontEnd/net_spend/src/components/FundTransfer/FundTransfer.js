@@ -4,10 +4,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { fundTransferService } from "../../Services/fundTransfer";
 
 const transactionCategories = [
-  { key: "INCOME", description: "Income" },
-  { key: "EXPENSE", description: "Expense" },
-  { key: "TRANSFER", description: "Transfer" },
-  // Add the rest of your categories here
+  { key: "INCOME", description: "INCOME" },
+  { key: "EXPENSE", description: "EXPENSE" },
+  { key: "TRANSFER", description: "TRANSFER" },
+  { key: "SALARY", description: "SALARY" },
+  { key: "RENT", description: "RENT" },
+  { key: "UTILITIES", description: "UTILITIES" },
+  { key: "GROCERIES", description: "GROCERIES" },
+  { key: "DINING_OUT", description: "DINING_OUT" },
+  { key: "ENTERTAINMENT", description: "ENTERTAINMENT" },
+  { key: "HEALTHCARE", description: "HEALTHCARE" },
+  { key: "TRAVEL", description: "TRAVEL" },
+  { key: "EDUCATION", description: "EDUCATION" },
+  { key: "SHOPPING", description: "SHOPPING" },
+  { key: "INSURANCE", description: "INSURANCE" },
+  { key: "TAXES", description: "TAXES" },
+  { key: "DONATIONS", description: "DONATIONS" },
+  { key: "INVESTMENTS", description: "INVESTMENTS" },
+  { key: "SAVINGS", description: "SAVINGS" },
+  { key: "LOAN_PAYMENT", description: "LOAN_PAYMENT" },
+  { key: "OTHER", description: "OTHER" },
 ];
 
 const transferTypes = [
@@ -15,7 +31,6 @@ const transferTypes = [
   { key: "otherBank", description: "To Other Bank" },
   { key: "quickTransfer", description: "Quick Transfer" },
   { key: "scheduleTransfer", description: "Schedule Transfer" },
-  // Add any additional transfer types here
 ];
 
 const FundTransfer = () => {
@@ -26,7 +41,7 @@ const FundTransfer = () => {
     category: "INCOME",
     transferType: "withinBank",
   });
-  
+
   const [transactionResponse, setTransactionResponse] = useState(null);
 
   const handleChange = (e) => {
@@ -35,15 +50,12 @@ const FundTransfer = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(transferDetails)
     e.preventDefault();
     try {
       let response;
       switch (transferDetails.transferType) {
         case "withinBank":
-          alert("inside within bank")
           response = await fundTransferService.transferWithinBank(transferDetails);
-          console.log("logging response "+JSON.stringify(response));
           break;
         case "otherBank":
           response = await fundTransferService.transferToOtherBank(transferDetails);
@@ -58,8 +70,7 @@ const FundTransfer = () => {
           throw new Error("Invalid transfer type");
       }
       alert("Transfer successful");
-      setTransactionResponse(response); // Update the state with the response
-      console.log(" transactionResponse222: "+ response);
+      setTransactionResponse(response);
     } catch (error) {
       alert("Transfer failed: " + error.message);
     }
@@ -69,7 +80,6 @@ const FundTransfer = () => {
     <div className="container mt-5">
       <h2>Fund Transfer</h2>
       <form onSubmit={handleSubmit}>
-        {/* Input for From Account */}
         <div className="mb-3">
           <label htmlFor="fromAccount" className="form-label">From Account:</label>
           <input
@@ -82,7 +92,6 @@ const FundTransfer = () => {
           />
         </div>
         
-        {/* Input for To Account */}
         <div className="mb-3">
           <label htmlFor="toAccount" className="form-label">To Account:</label>
           <input
@@ -95,7 +104,6 @@ const FundTransfer = () => {
           />
         </div>
         
-        {/* Input for Amount */}
         <div className="mb-3">
           <label htmlFor="amount" className="form-label">Amount:</label>
           <input
@@ -108,7 +116,6 @@ const FundTransfer = () => {
           />
         </div>
         
-        {/* Radio buttons for Category */}
         <div className="mb-3">
           <label className="form-label">Category:</label>
           <div>
@@ -131,7 +138,6 @@ const FundTransfer = () => {
           </div>
         </div>
         
-        {/* Radio buttons for Transfer Type */}
         <div className="mb-3">
           <label className="form-label">Transfer Type:</label>
           <div>
@@ -153,21 +159,24 @@ const FundTransfer = () => {
             ))}
           </div>
         </div>
-        
-        {/* Submit Button */}
-        <button type="submit" className="btn btn-primary">Transfer</button>
+
+        <button type="submit" className="btn btn-primary">Submit</button>
       </form>
 
       {/* Transaction Details Section */}
       {transactionResponse && (
-        <div className="transaction-details mt-3">
+
+        <div className="alert alert-success mt-3" role="alert">
+        
+      
           <h4>Transaction Details</h4>
-          <p>Transaction ID: {transactionResponse.transactionId}</p>
-          <p>From Account: {transactionResponse.fromAccountId}</p>
-          <p>To Account: {transactionResponse.toAccountId}</p>
-          <p>Amount: {transactionResponse.amount}</p>
-          <p>Catgeory: {transactionResponse.category}</p>
-          <p>Date: {transactionResponse.transactionDate ? transactionResponse.transactionDate : 'N/A'}</p>
+          <p><b>Status:</b> Transaction Successful</p>
+          <p><b>Transaction ID:</b> {transactionResponse.transactionId}</p>
+          <p><b>From Account: </b>{transactionResponse.fromAccountId}</p>
+          <p><b>To Account:</b> {transactionResponse.toAccountId}</p>
+          <p><b>Amount:</b> {transactionResponse.amount}</p>
+          <p><b>Catgeory:</b> {transactionResponse.category}</p>
+          <p><b>Date:</b> {transactionResponse.transactionDate ? transactionResponse.transactionDate : 'N/A'}</p>
 
           {/* Include more details as needed */}
         </div>

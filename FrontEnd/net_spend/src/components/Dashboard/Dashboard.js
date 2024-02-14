@@ -13,19 +13,23 @@ function Dashboard() {
   const [user, setUser] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [balance, setBalance] = useState(0); // Assuming balance is numeric
+  const [showBalance, setShowBalance] = useState(false);
 
   useEffect(() => {
-    async function fetchUserData() {
+    async function fetchUserDataAndBalance() {
       try {
         const currentUser = await getCurrentUser();
         setUser(currentUser);
 
         if (currentUser?.accountNumber) {
-          const initialTransactions = await bankingService.fetchTransactions(
-            currentUser.accountNumber
-          );
+          const initialTransactions = await bankingService.fetchTransactions(currentUser.accountNumber);
           setTransactions(initialTransactions);
           console.log(transactions);
+
+          // Fetching balance assuming bankingService has a getBalance method
+          const userBalance = await bankingService.getBalance(currentUser.accountNumber);
+          setBalance(userBalance);
         }
       } catch (error) {
         console.error("Error fetching user data or transactions:", error);
@@ -34,8 +38,8 @@ function Dashboard() {
       }
     }
 
-    fetchUserData();
-  }, []);
+    fetchUserDataAndBalance();
+  }, [transactions]);
 
   const getTimeBasedGreeting = () => {
     const hour = new Date().getHours();
@@ -79,6 +83,8 @@ function Dashboard() {
       : "User"
   }!`;
 
+  const toggleBalanceView = () => setShowBalance(!showBalance);
+
   return (
     <div className="dashboard">
       <nav className="navbar">
@@ -109,6 +115,10 @@ function Dashboard() {
 
       <header className="dashboard-header">
         <div className="user-greeting">{userGreeting}</div>
+        <button className="view-balance-btn" onClick={toggleBalanceView}>
+          {showBalance ? "Hide Balance" : "View Balance"}
+        </button>
+        {showBalance && <div className="user-balance">Balance: ${balance.toFixed(2)}</div>}
       </header>
 
       <div className="main-container">

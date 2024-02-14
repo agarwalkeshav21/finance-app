@@ -18,36 +18,28 @@ body {
     color: #ffffff;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 1rem 2rem;
-    z-index: 1000; /* Use a high value to ensure it's on top */
-    min-height: 50px; /* Ensure a minimum height */
-    overflow: visible;
+    z-index: 1000;
+    min-height: 50px;
 }
 
-.navbar ul {
-    list-style: none;
+.nav-links {
     display: flex;
+    align-items: center;
+    margin-left: 0; /* Ensures nav-links are aligned to the left */
 }
 
-.navbar ul li {
-    margin: 0 15px;
-}
-
-.navbar ul li a {
-    color: #ffffff;
+.nav-links a {
+    color: #fff;
     text-decoration: none;
-    padding: 0.5rem;
-    border-radius: 5px;
+    padding: 0 10px;
 }
 
-.navbar ul li a:hover,
-.navbar ul li a:focus {
-    background-color: #0056b3;
-    outline: none;
+.nav-links a:hover {
+    text-decoration: underline;
 }
 
-/* Dashboard greeting enhancements */
+/* Dashboard greeting and balance view */
 .dashboard-header {
     display: flex;
     justify-content: space-between;
@@ -59,10 +51,32 @@ body {
 }
 
 .user-greeting {
-    font-size: 1.5rem; /* Increased font size for better visibility */
-    color: #007bff; /* Adjusted to theme color for consistency */
-    font-weight: 600; /* Make the greeting stand out */
-    animation: fadeIn 2s; /* Adds a subtle fade-in effect */
+    font-size: 1.5rem;
+    color: #007bff;
+    font-weight: 600;
+    animation: fadeIn 2s;
+}
+
+.view-balance-btn {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.view-balance-btn:hover {
+    background-color: #0056b3;
+}
+
+.user-balance {
+    font-size: 1.2rem;
+    color: #333;
+    margin-left: 20px;
+    animation: fadeIn 2s;
 }
 
 @keyframes fadeIn {
@@ -79,51 +93,27 @@ body {
     gap: 20px;
 }
 
-.dashboard-content {
+.dashboard-content, .expenditure-chart {
     display: flex;
     flex-direction: column;
     gap: 25px;
     flex: 1;
 }
 
-.card {
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    padding: 2rem;
-    transition: transform 0.3s ease-in-out;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card h2 {
-    font-size: 1.4rem;
-    margin-bottom: 1.5rem;
-    color: #007bff;
-}
-
-/* Expenditure chart enhancements */
-.expenditure-chart {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 1rem;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    flex: 1;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .navbar ul {
+    .navbar {
         flex-direction: column;
-        align-items: center;
     }
 
-    .navbar ul li {
-        margin: 5px 0;
+    .nav-links {
+        flex-direction: column;
+        align-items: center; /* Center aligns links on smaller screens */
+        padding-top: 20px;
+    }
+
+    .nav-links a {
+        padding: 5px 0; /* Adds padding for better touch targets */
     }
 
     .main-container {
@@ -134,7 +124,11 @@ body {
         max-width: 100%;
     }
 
-    .user-greeting {
-        font-size: 0.2rem; /* Adjust font size for smaller screens */
+    .user-greeting, .user-balance {
+        font-size: 1.25rem; /* Adjusted for better readability on smaller screens */
+    }
+
+    .view-balance-btn {
+        font-size: 0.9rem; /* Smaller font size for the toggle button on smaller screens */
     }
 }

@@ -1,6 +1,8 @@
 package com.futurebank.authservice.controller;
 
 import com.futurebank.authservice.model.User;
+import com.futurebank.authservice.dto.ChangePasswordDTO;
+import com.futurebank.authservice.dto.UpdatePersonalDetailsDTO;
 import com.futurebank.authservice.dto.UserDto; // Ensure this import is correct
 import com.futurebank.authservice.security.TokenProvider;
 import com.futurebank.authservice.service.UserService;
@@ -98,6 +100,57 @@ public class AuthController {
         } else {
             System.out.println("No authentication found or user is not authenticated.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("error", "No authentication found or user is not authenticated"));
+        }
+    }
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO, Authentication authentication) {
+        try {
+            logger.info("Attempting to change password for authenticated user");
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String username = userDetails.getUsername();
+            
+            // Ensuring that the user exists and retrieving user details
+            User user = userService.findByUsername(username)
+                        .orElseThrow(() -> new IllegalStateException("User not found for username: " + username));
+            
+            logger.info("Changing password for userId: {}", user.getUserId());
+            System.out.println("New Password "+changePasswordDTO.toString());
+            // Delegating the password change operation to the service layer
+            userService.changePassword(user.getUserId(), changePasswordDTO);
+
+            logger.info("Password changed successfully for userId: {}", user.getUserId());
+            return ResponseEntity.ok().body(Collections.singletonMap("message", "Password changed successfully"));
+        } catch (IllegalStateException | IllegalArgumentException e) {
+            logger.error("Error changing password: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", e.getMessage()));
+        } catch (Exception e) {
+            logger.error("Unexpected error during password change: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "An unexpected error occurred."));
+        }
+    }
+
+
+    @PostMapping("/update-details")
+    public ResponseEntity<?> updatePersonalDetails(@RequestBody UpdatePersonalDetailsDTO updatePersonalDetailsDTO, Authentication authentication) {
+        try {
+            logger.info("In update-details");
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            logger.info("Printing User Details: {}", userDetails);
+            String username = userDetails.getUsername();
+            logger.info("Printing User name: {}", username);
+
+            // Find the user by username to get the userId
+            User user = userService.findByUsername(username)
+                    .orElseThrow(() -> new IllegalStateException("User not found"));
+
+            // Pass the userId and updatePersonalDetailsDTO to the service
+            System.out.println("USER :"+user);
+            userService.updatePersonalDetails(user.getUserId(), updatePersonalDetailsDTO);
+            return ResponseEntity.ok().body(Collections.singletonMap("message", "Personal details updated successfully"));
+        } catch (Exception e) {
+            logger.error("Error in update-details catch block", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", e.getMessage()));
         }
     }
     

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./ChangePassword.css"; // Make sure to create a corresponding CSS file for styling
+import { useUser } from '../../context/UserContext';
+import "./ChangePassword.css"; // Adjust the path as necessary
 
 const ChangePassword = () => {
+  const { user } = useUser(); // Destructure user from context
   const navigate = useNavigate();
   const [passwords, setPasswords] = useState({
     currentPassword: "",
@@ -13,34 +15,67 @@ const ChangePassword = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setPasswords({
-      ...passwords,
+    setPasswords((prevState) => ({
+      ...prevState,
       [name]: value,
-    });
+    }));
+  };
+
+  const handleChangePassword = async ({ currentPassword, newPassword }) => {
+    if (!user || !user.userId) {
+      setError('User information is missing. Please log in again.');
+      return;
+    }
+
+    const token = localStorage.getItem('userToken'); // Assume token is still in localStorage
+    if (!token) {
+      setError('No token found. Please log in again.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8082/api/auth/change-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to change password');
+      }
+
+      alert("Password successfully changed.");
+      navigate("/profile-management"); // Adjust according to your routing setup
+    } catch (error) {
+      setError(error.message || "Failed to change password. Please try again.");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate the new passwords match
+    setError("");
+
     if (passwords.newPassword !== passwords.confirmPassword) {
       setError("New passwords do not match.");
       return;
     }
 
-    // Placeholder for password change logic
-    try {
-      // Here you would call your backend service to change the password
-      console.log("Password change requested:", passwords);
-
-      // Simulate password change success
-      alert("Password successfully changed.");
-      // Redirect user to the profile page or login page after successful password change
-      navigate("/profile-management");
-    } catch (error) {
-      // Handle errors (e.g., current password incorrect, new password doesn't meet criteria)
-      setError("Failed to change password. Please try again.");
-    }
+    await handleChangePassword({
+      currentPassword: passwords.currentPassword,
+      newPassword: passwords.newPassword,
+    });
   };
+
+  if (!user) {
+    return <div>Loading user details...</div>;
+  }
 
   return (
     <div className="changePassword">

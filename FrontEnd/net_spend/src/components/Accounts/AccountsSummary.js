@@ -10,14 +10,18 @@ function AccountsSummary() {
   const { user } = useUser(); // Assuming useUser() hook provides user and loading state
 
   useEffect(() => {
+    // Clear transactions when user changes to prevent displaying previous user's data
+    setTransactions([]);
+    setIsLoading(true);
+    setError(null);
+
     if (!user || !user.accountNumber) {
       console.error("No user or account ID available");
-      setIsLoading(false); // Ensure loading is set to false to stop the loading state if there's no user
+      setIsLoading(false); // Ensure loading is set to false if there's no user
       return;
     }
 
     const fetchAccountTransactions = async () => {
-      setIsLoading(true);
       try {
         const fetchedTransactions = await BankingService.fetchTransactions(
           user.accountNumber
@@ -32,7 +36,12 @@ function AccountsSummary() {
     };
 
     fetchAccountTransactions();
-  }, [user]); // Reacts to changes in user object, specifically if user.accountId changes
+
+    // Optionally, if your component might unmount before the fetch completes:
+    // return a cleanup function to cancel the fetch or ignore its result.
+    // This depends on how `BankingService.fetchTransactions` is implemented.
+    // For example, if using Axios, you might use an Axios cancel token here.
+  }, [user]); // Reacts to changes in user object, specifically if user changes
 
   if (isLoading) {
     return <div>Loading account transactions...</div>;

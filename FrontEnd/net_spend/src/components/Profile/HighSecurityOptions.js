@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { updateSecuritySettings } from "../../Services/authService"; // Update this import based on your project structure
 import "./HighSecurityOptions.css"; // Ensure you have corresponding CSS for styling
 
 const HighSecurityOptions = () => {
@@ -19,15 +20,15 @@ const HighSecurityOptions = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Placeholder for updating high security options
-    try {
-      console.log("Security settings update:", securitySettings);
-      // Here you would call your backend service to update the high security settings
 
+    try {
+      // Replace the placeholder with a call to your backend service
+      await updateSecuritySettings(securitySettings); // Assume `updateSecuritySettings` is the method you have for this
       alert("High security options updated successfully.");
       navigate("/profile-management"); // Redirect to profile or another relevant page
     } catch (error) {
-      // Handle error scenarios
+      // Adjust error handling as needed based on your application's error handling strategy
+      console.error("Failed to update high security options:", error);
       alert("Failed to update high security options. Please try again.");
     }
   };
