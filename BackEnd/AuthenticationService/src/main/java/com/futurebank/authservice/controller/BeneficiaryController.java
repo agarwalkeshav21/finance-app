@@ -4,7 +4,7 @@ import com.futurebank.authservice.model.Beneficiary;
 import com.futurebank.authservice.service.BeneficiaryService;
 import com.futurebank.authservice.service.UserService; // Make sure you have this service
 
-import org.apache.catalina.User;
+import com.futurebank.authservice.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -68,7 +68,7 @@ public class BeneficiaryController {
             User user = (User) userService.findByUsername(userDetails.getUsername())
                         .orElseThrow(() -> new IllegalStateException("User not found for username: " + userDetails.getUsername()));
             
-            return user.get; // Make sure your User entity has a getId() method that returns the user ID
+            return user.getUserId(); // Make sure your User entity has a getId() method that returns the user ID
         }
         return null; // or throw an appropriate exception if the user is not found or not logged in
     }
